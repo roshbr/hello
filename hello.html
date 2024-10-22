@@ -1,11 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hello</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMI Calculator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-image: linear-gradient(to bottom right, #f9d423, #ff4e50, #28abe3);
+    }
+  </style>
 </head>
-<body>
-    <h1>hello good morning</h1>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full border-t-8 border-red-500 transition-all duration-300 hover:shadow-xl">
+    <h1 class="text-3xl font-extrabold mb-6 text-center text-blue-600 md:text-4xl">BMI Calculator</h1>
+
+    <form id="bmiForm" class="space-y-6">
+      <!-- Name -->
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-800">Name</label>
+        <input type="text" id="name" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Enter your name" required>
+      </div>
+
+      <!-- Age -->
+      <div>
+        <label for="age" class="block text-sm font-medium text-gray-800">Age</label>
+        <input type="number" id="age" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Enter your age" required>
+      </div>
+
+      <!-- Weight -->
+      <div>
+        <label for="weight" class="block text-sm font-medium text-gray-800">Weight (kg)</label>
+        <input type="number" id="weight" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Enter your weight in kg" required>
+      </div>
+
+      <!-- Height -->
+      <div>
+        <label for="height" class="block text-sm font-medium text-gray-800">Height (cm)</label>
+        <input type="number" id="height" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-yellow-500 transition" placeholder="Enter your height in cm" required>
+      </div>
+
+      <!-- Sex -->
+      <div>
+        <label for="sex" class="block text-sm font-medium text-gray-800">Sex</label>
+        <select id="sex" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-yellow-500 focus:border-yellow-500 transition" required>
+          <option value="" disabled selected>Select your sex</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 transition text-lg font-semibold">Calculate BMI</button>
+      </div>
+    </form>
+
+    <!-- Result -->
+    <div id="result" class="mt-6 text-center text-lg text-blue-700 font-bold md:text-xl"></div>
+  </div>
+
+  <script>
+    // BMI Calculation
+    document.getElementById('bmiForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      const weight = document.getElementById('weight').value;
+      const height = document.getElementById('height').value;
+      const sex = document.getElementById('sex').value;
+
+      if (weight > 0 && height > 0) {
+        // Calculate BMI
+        const heightInMeters = height / 100;
+        const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(2);
+
+        // Show result
+        let resultMessage = `${name}, your BMI is ${bmi}.`;
+
+        // Fun BMI Categories
+        let bmiCategory = "";
+        if (bmi < 18.5) {
+          bmiCategory = "Garreb sala, ka le kahana! (Underweight)";
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+          bmiCategory = "Mast! You are fit. (Normal weight)";
+        } else if (bmi >= 25 && bmi < 29.9) {
+          bmiCategory = "Thoda sambhal ja yaar! (Overweight)";
+        } else {
+          bmiCategory = "Bas bhai bas! Ab control kar. (Obese)";
+        }
+
+        document.getElementById('result').innerHTML = `${resultMessage} ${bmiCategory}`;
+      } else {
+        document.getElementById('result').innerHTML = "Please enter valid weight and height.";
+      }
+    });
+  </script>
+  
 </body>
 </html>
